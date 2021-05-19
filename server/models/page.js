@@ -14,7 +14,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Page.init({
-    page_Url: DataTypes.STRING
+    page_Url: DataTypes.STRING,
+    highlight_Id: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Page',

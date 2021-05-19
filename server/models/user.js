@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const highlights = require('./highlights');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -11,6 +12,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.hasMany(models.Pages, { foreignKey: "page_Id", sourceKey:"id"});
+      User.hasMany(models.theme_Id, { foreignKey: "theme_Id", sourceKey:"id"});
     }
   };
   User.init({

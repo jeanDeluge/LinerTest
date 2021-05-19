@@ -11,6 +11,9 @@ module.exports = {
       page_Url: {
         type: Sequelize.STRING
       },
+      highlight_Id:{
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
