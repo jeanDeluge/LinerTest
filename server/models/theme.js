@@ -11,12 +11,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Theme.belongsToMany(models.User, {foreignKey:"theme_Id",sourceKey:"id",through: "UserThemes"})
     }
   };
   Theme.init({
     color1: DataTypes.STRING,
-    coler2: DataTypes.STRING,
-    color3: DataTypes.STRING
+    color2: DataTypes.STRING,
+    color3: DataTypes.STRING,
+    user_Id: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Theme',

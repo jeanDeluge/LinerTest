@@ -11,11 +11,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      //Page.hasMany(models.Highlights)
+      //Page.belongsTo(models.User)//자신의 primarykey
     }
   };
   Page.init({
     page_Url: DataTypes.STRING,
-    highlight_Id: DataTypes.INTEGER
+    user_Id : DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Page',

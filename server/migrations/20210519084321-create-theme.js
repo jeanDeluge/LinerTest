@@ -11,11 +11,14 @@ module.exports = {
       color1: {
         type: Sequelize.STRING
       },
-      coler2: {
+      color2: {
         type: Sequelize.STRING
       },
       color3: {
         type: Sequelize.STRING
+      },
+      user_Id:{
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,

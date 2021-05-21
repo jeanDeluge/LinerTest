@@ -1,4 +1,5 @@
 'use strict';
+const { text } = require('express');
 const {
   Model
 } = require('sequelize');
@@ -11,11 +12,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      //Highlights.belongsTo(models.Page)
     }
   };
   Highlights.init({
     text: DataTypes.STRING,
-    colorHex: DataTypes.STRING
+    colorHex: DataTypes.STRING,
+    page_Id: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Highlights',

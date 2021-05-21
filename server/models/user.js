@@ -12,13 +12,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      User.hasMany(models.Pages, { foreignKey: "page_Id", sourceKey:"id"});
-      User.hasMany(models.theme_Id, { foreignKey: "theme_Id", sourceKey:"id"});
+     // User.hasMany(models.Page);//sourcekey : Page의 Primarykey
+      User.belongsToMany(models.Theme, { foreignKey: "id", sourceKey:"id", through: "UserThemes"});
     }
   };
   User.init({
+    username : DataTypes.STRING,
     theme_Id: DataTypes.INTEGER,
-    page_Id: DataTypes.INTEGER
+    currentTheme: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'User',

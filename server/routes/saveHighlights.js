@@ -1,49 +1,52 @@
 
-const {User, Page, Theme,Highlights} = require('../models')
+const {User, Page, Theme, Highlights} = require('../models')
+const express = require('express');
+const router = express.Router();
+
+const { body , validationResult} = require('express-validator');
 
 
-module.exports={
 
-    saveHighlights: async (req, res, next) => {
-       
-        try{
-            const userId = req.body.userId;
-            const pageUrl = req.body.pageUrl;
-            const colorHex = req.body.colorHex;
-            const text = req.body.text;
+router.post('/',
+body('userId').not().isEmpty(),
+body('pageUrl').not().isEmpty(),
+body('colorHex').not().isEmpty(),
+body('text').not().isEmpty()
+,async (req, res)=>{
+    try{
+        const error = validationResult(req);
 
-            //하이라이트 모델에 추가해야할 것,
-            //id 는 저절로 생기고
-            
-            const highlight = await Highlights.create({
-                text : text,
-                colorHex: colorHex
-            }).then((result)=>{
-                console.log(result);
-                return result
-            }).catch(err =>{
-                console.log(err)
-            })
+        if(!error.isEmpty()){
 
-            const page = await Page.create({
+            throw new Error('some params are missing');
+        }
+        
+        const reqUserId = req.body.userId;
+        const reqPageUrl = req.body.pageUrl;
+        const reqColorHex = req.body.colorHex;
+        const reqText = req.body.text;
 
-            })
-            
-            // userid는 highlightId join 으로 가져오고
-            // pageid 도 join으로 가져오고
-            //text 는 바로 가져오기
-            
+        //let createHighlight = await Highlights.create({colorHex:reqColorHex, text:reqText, page_Id:Page.id, pages:{page_Url: reqPageUrl}}, {include: [ Page ]})
 
-            const highlightId;
-            const pageId;
-            
-            res.status(200).json({
-                highlightId,userId,colorHex,text
-            })
-            
-        }catch(e){
-            
+        let findUser = await User.findOne({where: {username : reqUserId}});
+        let findPage = await Page.findOne({where: {page_Url : reqPageUrl }});
+        let createHighlight = await Highlights.create({colorHex: reqColorHex, text: reqText, page_Id: findPage.id})
+
+        console.log(createHighlight);
+        res.status(200).json({
+            "highlightId": createHighlight.id,
+            "userId":findUser.id,
+            "pageId":findPage.id,
+            "colorHex":createHighlight.dataValues.colorHex,
+            "text" : createHighlight.dataValues.text
+        })
+    }catch(e){
+        if(e.message ==='some params are missing'){
+            res.status(400).json(e.message);
+        }else if(e.message === `User doesn't exist`){
+            res.status(400).json(e.message);
         }
     }
+})
 
-}
+module.exports=router;

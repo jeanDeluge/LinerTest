@@ -11,7 +11,7 @@ module.exports = {
       page_Url: {
         type: Sequelize.STRING
       },
-      highlight_Id:{
+      user_Id:{
         type: Sequelize.INTEGER
       },
       createdAt: {

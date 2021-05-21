@@ -14,6 +14,9 @@ module.exports = {
       colorHex: {
         type: Sequelize.STRING
       },
+      page_Id:{
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
