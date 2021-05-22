@@ -20,15 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     colorHex: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'Highlights',
-    defaultScope:{
-      where:{
-        text:true,
-        colorHex:true,
-        pageId: true,
-        userId:true
-      }
-    }
+    modelName: 'Highlights'
   });
   return Highlights;
 };

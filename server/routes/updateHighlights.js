@@ -4,46 +4,63 @@ const express = require('express');
 const router = express.Router();
 
 const { body , validationResult} = require('express-validator');
+const user = require('../models/user');
 
 //userId, highlightId 필수
 
-const validcheck = [
-    body("highlightId").notEmpty(),
-    body("userId").notEmpty(),
-    body("colorHex").notEmpty()||body("text").notEmpty()
-]
 
-router.post('/',validcheck
-,async (req, res)=>{
+router.put('/',async (req, res)=>{
     try{
-        const error = validationResult(req);
-
-        if(!error.isEmpty()){
-
-            throw new Error('some params are missing');
+        
+       
+        if(!req.body.highlightId){
+            throw new Error("needs highlightId ")
         }
+        if(!req.body.userId){
+            throw new Error("needs userId ")
+        }
+        if(!(req.body.colorHex || req.body.text)){
+            throw new Error("colorHex, text both don't exist")
+        } 
         
         let reqHighlightId = req.body.highlightId;
         let reqUserId = req.body.userId;
         let reqColorHex = req.body.colorHex || "null";
         let reqText = req.body.text || "null";
 
-        let findchangedHighlight = await Highlights.findOne({where: {id : reqHighlightId },
-            include:{
-                association: Highlights.Page, as:"page",
-                include:{
-                    association: Page.Highlights, as:"highlights",
-                    
-                }
+        let selector = {where: {id : reqHighlightId },
+        include:{
+            association: Highlights.Page, as:"page",
+            include: {
+                association: Page.User, as:"user",
+                where: {username:reqUserId}
             }
-        });
-
-
-        console.log(findchangedHighlight, 'findchangedHighlight')
-
-        res.status(200).json({
             
+            
+        }
+    }
+        let updateHighlight = await Highlights.findOne(selector)
+        .then(obj =>{
+            if(reqColorHex === 'null'){
+                return Highlights.update({text:reqText},selector)
+            }
+            else if(reqText==="null"){
+                return Highlights.update({colorHex:reqColorHex}, selector)
+            }else{
+                return Highlights.update({colorHex:reqColorHex, text:reqText},selector)
+            }
+        })
 
+        let findupdatedHighlight = await Highlights.findOne(selector)
+
+        
+        res.status(200).json({
+
+            "highlightId":findupdatedHighlight.dataValues.id,
+            "userId" : findupdatedHighlight.dataValues.page.userId,
+            "pageId" : findupdatedHighlight.dataValues.pageId,
+            "colorHex": findupdatedHighlight.dataValues.colorHex,
+            "text": findupdatedHighlight.dataValues.text
         })
 
     }catch(e){
