@@ -12,16 +12,23 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      //Highlights.belongsTo(models.Page)
+      Highlights.Page= Highlights.belongsTo(models.Page,{foreignKey:'pageId', as:'page', targetKey: 'id', constraints:false});
     }
   };
   Highlights.init({
     text: DataTypes.STRING,
-    colorHex: DataTypes.STRING,
-    page_Id: DataTypes.INTEGER
+    colorHex: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Highlights',
+    defaultScope:{
+      where:{
+        text:true,
+        colorHex:true,
+        pageId: true,
+        userId:true
+      }
+    }
   });
   return Highlights;
 };

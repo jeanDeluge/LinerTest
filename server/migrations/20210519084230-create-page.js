@@ -1,4 +1,7 @@
 'use strict';
+
+const user = require("../models/user");
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('Pages', {
@@ -10,9 +13,12 @@ module.exports = {
       },
       page_Url: {
         type: Sequelize.STRING
-      },
-      user_Id:{
-        type: Sequelize.INTEGER
+      },userId:{
+        type: Sequelize.INTEGER,
+        references:{
+          model: 'users',
+          key: 'id'
+        }
       },
       createdAt: {
         allowNull: false,
@@ -22,6 +28,13 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
+    }).then(function(){
+      queryInterface.createTable('P', {
+        users_id:{
+          type: Sequelize.INTEGER,
+          references:{model: 'users', key: 'id'}
+        }
+      })
     });
   },
   down: async (queryInterface, Sequelize) => {

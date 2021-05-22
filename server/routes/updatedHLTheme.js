@@ -18,19 +18,15 @@ body('themeId').not().isEmpty()
             throw new Error('some params are missing');
         }
         
-        let highlightId;
-        let userId;
-        let colorHex;
-        let text;
+        let reqUserId = req.body.userId;
+        let reqThemeId = req.body.themeId;
 
+        
+        let updateUserTheme = await User.update({currentTheme: reqThemeId},{where:{username: reqUserId}});
+        console.log(updateUserTheme)
 
-        res.status(200).json({
-            "highlightId" : highlight.dataValues.id,
-            "userId" : user.dataValues.username,
-            "pageId":page.dataValues.id,
-            "colorHex": highlight.dataValues.colorHex,
-            "text": highlight.dataValues.text
-        })
+        res.status(200).send(`${res.statusCode} OK`)
+
     }catch(e){
         if(e.message ==='some params are missing'){
             res.status(400).json(e.message);

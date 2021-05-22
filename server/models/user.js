@@ -12,8 +12,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-     // User.hasMany(models.Page);//sourcekey : Page의 Primarykey
-      User.belongsToMany(models.Theme, { foreignKey: "id", sourceKey:"id", through: "UserThemes"});
+     User.Page= User.hasMany(models.Page, {foreignKey:'userId', sourceKey:'id', as:'pages'});//sourcekey : Page의 Primarykey
+     // User.belongsToMany(models.Theme, { foreignKey: "id", sourceKey:"id", through: "UserThemes"});
     }
   };
   User.init({
@@ -22,7 +22,8 @@ module.exports = (sequelize, DataTypes) => {
     currentTheme: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'User',
+    modelName: 'User'
+    
   });
   return User;
 };

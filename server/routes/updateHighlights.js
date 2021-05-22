@@ -28,29 +28,21 @@ router.post('/',validcheck
         let reqColorHex = req.body.colorHex || "null";
         let reqText = req.body.text || "null";
 
-        let condition = {}
-        if(reqColorHex==="null" ){
-            condition["text"] =  reqText;
-        }else if (reqText ==="null"){
-            condition["colorHex"] = reqColorHex;
-        }else{
-            condition["text"] =  reqText;
-            condition["colorHex"] = reqColorHex;
-        }
-
-        console.log(condition)
-        let updateUsersHighlight =await Highlights.update(condition,{where:{id:reqHighlightId}})
-        let findchangedHighlight = await Highlights.findOne({where: {id : reqHighlightId } });
+        let findchangedHighlight = await Highlights.findOne({where: {id : reqHighlightId },
+            include:{
+                association: Highlights.Page, as:"page",
+                include:{
+                    association: Page.Highlights, as:"highlights",
+                    
+                }
+            }
+        });
 
 
         console.log(findchangedHighlight, 'findchangedHighlight')
 
         res.status(200).json({
-            "highlightId":findchangedHighlight.id,
-            "userId": reqUserId,
-            "pageId": findchangedHighlight.dataValues.page_Id,
-            "colorHex" : findchangedHighlight.dataValues.colorHex,
-            "text" : findchangedHighlight.dataValues.text
+            
 
         })
 
