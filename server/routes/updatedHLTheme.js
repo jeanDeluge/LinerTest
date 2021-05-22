@@ -6,7 +6,7 @@ const router = express.Router();
 const { body , validationResult} = require('express-validator');
 
 // userId, hi
-router.post('/',
+router.put('/',
 body('userId').not().isEmpty(),
 body('themeId').not().isEmpty()
 ,async (req, res)=>{

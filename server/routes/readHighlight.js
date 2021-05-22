@@ -20,7 +20,9 @@ router.post('/',async (req, res)=>{
 
         if(reqPageUrl === undefined){
             console.log(reqPageUrl, "reqPageUrl")
-            readHighlights = await Highlights.findAll({include:[
+            readHighlights = await Highlights.findAll({
+                order:[['createdAt','DESC']],
+                include:[
                 {
                     association: Highlights.User, as:"user", where:{username:reqUserId}
                 },{
@@ -29,15 +31,21 @@ router.post('/',async (req, res)=>{
             ]})
         }else if(reqPageId === undefined){
             console.log(reqPageUrl, "reqPageUrl")
-            readHighlights = await Highlights.findAll({include:[
+            readHighlights = await Highlights.findAll({
+                order:[['createdAt','DESC']],
+                include:[
                 {
                     association: Highlights.User, as:"user", where:{username:reqUserId}
                 },{
                     association: Highlights.Page, as:"page", where:{page_Url : reqPageUrl}
                 }
-            ]})
+            ],
+              
+        } )
         }else{
-            readHighlights = await Highlights.findAll({include:[
+            readHighlights = await Highlights.findAll({
+                order:[['createdAt','DESC']],
+                include:[
                 {
                     association: Highlights.User, as:"user", where:{username:reqUserId}
                 },{

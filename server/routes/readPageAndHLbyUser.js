@@ -20,10 +20,20 @@ body('userId').notEmpty()
 
         let reqUserId = req.body.userId;
      
-        let pageandHighlightOrdering = await Page.findAll({include:[ {
+        let pageandHighlightOrdering = await Page.findAll({
+            include:[ {
             association: Page.User, as: "user",
             where: { username: reqUserId}
-        },{model: Highlights, as: "highlights"}]}).then(data=>{
+             },{
+            model: Highlights, 
+            as: "highlights",
+            }],
+            order:[
+                ['createdAt', 'DESC'],["highlights",'createdAt','DESC']
+            ]
+        }
+
+        ).then(data=>{
             let newData = data.map(el => {
                 return {
                     "pageId": el.dataValues.id,
@@ -32,7 +42,7 @@ body('userId').notEmpty()
                 }   
             })
             return newData
-        })
+        }).catch(e=>console.log(e))
 
         console.log(pageandHighlightOrdering)
         res.status(200).json(pageandHighlightOrdering)
