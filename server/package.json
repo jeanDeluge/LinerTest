@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon" ,
+    "start": "nodemon",
     "migration": "npx sequelize-cli db:migrate",
     "undomig": "npx sequelize-cli db:migrate:undo --name 20210519084201-create-highlights && npx sequelize-cli db:migrate:undo:all"
   },
@@ -13,6 +13,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^15.3.0",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-validator": "^6.11.1",
     "mysql2": "^2.2.5",

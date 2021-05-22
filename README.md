@@ -1,5 +1,14 @@
 # SERVER 구동
 
+* config/config 파일에서 다음과 같이 환경변수 설정
+
+    "username": env.MYSQL_USERNAME,
+    "password": env.MYSQL_PASSWORD,
+    "database": env.MYSQL_DATABASENAME,
+    "host": env.MYSQL_HOST,
+    "dialect": "mysql"
+
+
 1. vim, root dir (linertest) 에서 cd server 으로 /LinerTest/server로 진입
 2. npm start 를 통해서 서버를 실행
 3. 다른 vim 윈도우에서 같은 디렉토리에서 npm run migration 실행
