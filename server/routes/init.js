@@ -5,7 +5,13 @@ const user = require('../models/user');
 const highlights = require('../models/highlights');
 const router = express.Router();
 
-router.get('/',async (req, res)=>{
+const {body, validationResult} = require('express-validator');
+
+const validator = [
+    body('userId').notEmpty()
+]
+
+router.post('/',validator, async (req, res)=>{
 
     try{
         let [theme1, create1] = await Theme.findOrCreate({where : {id : 1}  , defaults : {color1:"#ffff8d",color2:"#a5f2e9",color3:"#ffd5c8"}})
@@ -19,19 +25,27 @@ router.get('/',async (req, res)=>{
         
         // let findOrCreatePage = await Page.findOrCreate({where:{page_Url:"www.getliner.com", user: { c: 1}},include:[{model: User, as:'user', where:{id: 1}}]})
         
-    
+        let reqUserId = req.body.userId
+
+        let findUser = await User.findOne({where: {username:reqUserId}})
+
+        if(findUser!==null){
+            throw new Error(`${reqUserId} 유저는 있습니다.`)
+        }
         let createUser = await User.create({
-            username : '12322',
+            username: reqUserId,
             theme_Id : 1,
             currentTheme: 1
-        }).catch(e => console.log(e))
+        })
 
-        console.log(createUser ,'user')
-        res.status(200).send("data init => 유저 12312 생성")
+        console.log(createUser)
 
+
+            res.status(200).json(`${createUser.dataValues.username} 유저 생성`)
+       
     }catch(e){
 
-        res.status(400).json(e);
+        res.status(400).json(e.message);
     }
 
 })

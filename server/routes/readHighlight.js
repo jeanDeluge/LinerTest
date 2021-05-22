@@ -37,7 +37,7 @@ router.post('/',async (req, res)=>{
                 }
             ]})
         }else{
-            eadHighlights = await Highlights.findAll({include:[
+            readHighlights = await Highlights.findAll({include:[
                 {
                     association: Highlights.User, as:"user", where:{username:reqUserId}
                 },{
@@ -47,10 +47,17 @@ router.post('/',async (req, res)=>{
         }
 
 
+        let newData = readHighlights.map(el => {
+            return{
+            "highlightId": el.dataValues.id,
+            "userId": el.dataValues.user.username,
+            "pageId": el.dataValues.pageId,
+            "colorHex": el.dataValues.colorHex,
+            "text": el.dataValues.text
+            }
+        })
         
-        res.status(200).json(
-            readHighlights
-        )
+        res.status(200).json(newData)
     }catch(e){
         if(e.message ==='some params are missing'){
             res.status(400).json(e.message);

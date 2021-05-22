@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon" 
+    "start": "nodemon" ,
+    "migration": "npx sequelize-cli db:migrate",
+    "undomig": "npx sequelize-cli db:migrate:undo --name 20210519084201-create-highlights && npx sequelize-cli db:migrate:undo:all"
   },
   "author": "",
   "license": "ISC",

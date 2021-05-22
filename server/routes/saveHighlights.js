@@ -62,7 +62,7 @@ body('text').not().isEmpty()
         }
         res.status(200).json({
             highlightId:createdHLobj.id,
-            userId:findUser.dataValues.id,
+            userId:findUser.dataValues.username,
             pageId,
             colorHex:createdHLobj.colorHex,
             text: createdHLobj.text

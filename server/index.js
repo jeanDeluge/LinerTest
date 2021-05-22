@@ -5,6 +5,9 @@ const app = express();
 
 let sequelize = require('./models').sequelize;
 
+let view = require('./View/index.ejs');
+
+
 let saveHighlight = require('./routes/saveHighlights');
 let init = require('./routes/init');
 let updateHighlights = require('./routes/updateHighlights');
@@ -17,13 +20,15 @@ let updateUserTheme = require('./routes/updatedHLTheme');
 app.use(express.json())
 sequelize.sync();
 
+let port = process.env.PORT || 3000
 
-app.set('port', process.env.PORT || 3000);
+app.set('port',port);
 
 
 app.listen(app.get('port'), ()=>{
     console.log(app.get('port'), 'listen')
 })
+
 
 app.use('/',init);
 app.use('/saveHighlight', saveHighlight);
