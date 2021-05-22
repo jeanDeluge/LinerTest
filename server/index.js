@@ -1,23 +1,39 @@
 const express = require('express');
-
+const path = require('path');
+const expressVaildator = require('express-validator')
 const app = express();
-app.set('port', process.env.PORT || 3000);
 
-//커스텀 404페이지
+let sequelize = require('./models').sequelize;
 
-app.use(function(req, res ){
-    res.type('text/plain');
-    res.status(404);
-    res.send('404 NOT FOUND')
+let view = require('./View/index.ejs');
+
+
+let saveHighlight = require('./routes/saveHighlights');
+let init = require('./routes/init');
+let updateHighlights = require('./routes/updateHighlights');
+let readHighlights = require('./routes/readHighlight');
+let readPagewithHighlights = require('./routes/readPageAndHLbyUser')
+let deleteHighlight = require('./routes/deleteHighlight');
+let updateUserTheme = require('./routes/updatedHLTheme');
+//middle-ware
+
+app.use(express.json())
+sequelize.sync();
+
+let port = process.env.PORT || 3000
+
+app.set('port',port);
+
+
+app.listen(app.get('port'), ()=>{
+    console.log(app.get('port'), 'listen')
 })
 
-//커스텀 500페이지 
-app.use(function(req, res){
-    res.type('text/plain');
-    res.status(500);
-    res.send('500 - Server Error');
-})
 
-app.listen(app.get('port'),function(){
-    console.log('server started on '+ app.get('port'))
-})
+app.use('/',init);
+app.use('/saveHighlight', saveHighlight);
+app.use('/updateHighlights', updateHighlights);
+app.use('/readHighlight', readHighlights);
+app.use('/readPagewithHighlights',readPagewithHighlights)
+app.use('/deleteHighlight', deleteHighlight);
+app.use('/updateUserTheme',updateUserTheme);
