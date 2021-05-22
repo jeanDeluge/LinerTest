@@ -21,10 +21,16 @@ body('highlightId').not().isEmpty()
         let reqHighlightId = req.body.highlightId;
         let reqUserId = req.body.userId;
 
-        let deleteHighlight = Highlights.destroy({where: {id: reqHighlightId}})
+        let deleteHighlight = await Highlights.destroy({where: {id: reqHighlightId}}).then(result => {
+            if(result === 1){
+
+                 res.status(200).send(`${res.statusCode} OK`)
+            }else{
+                res.status(400).send(`${res.statusCode} failed delete the Highlight`)
+            }
+        })
 
 
-        res.status(200).send(`${res.statusCode} OK`)
     }catch(e){
         if(e.message ==='some params are missing'){
             res.status(400).json(e.message);
