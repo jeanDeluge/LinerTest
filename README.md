@@ -20,57 +20,71 @@
 
     Body
     {
-    "userId": "jeanDeluge"
+
+        "userId": "jeanDeluge"
+    
     }
 
 2. POST , /saveHighlight 하이라이트 생성
 
     Body, json
     {
-    "userId":  "jeanDeluge",
-    "pageUrl" : "www.getliner.com/4",
-    "colorHex" : "#fffff8",
-    "text": "라이너 등록함, 15"
+
+        "userId":  "jeanDeluge",
+        "pageUrl" : "www.getliner.com/4",
+        "colorHex" : "#fffff8",
+        "text": "라이너 등록함, 15"
+    
     }
 
 3. PUT, /updateHighlights 하이라이트 수정
 
     Body,json
     {
-    "userId":  "jeanDeluge", //required
-    "highlightId" : 50, //required
-    "colorHex" : "#fffff0", //required either colorHex or text
-    "text" : "변경된 텍스트입니다"
+
+        "userId":  "jeanDeluge", //required
+        "highlightId" : 50, //required
+        "colorHex" : "#fffff0", //required either colorHex or text
+        "text" : "변경된 텍스트입니다"
+    
     }
 
 4. POST, /readHighlight 페이지내 하이라이트 정보가져오기
 
     Body,json
     {
-    "userId":  "jeanDeluge", //required
-    "pageUrl" : "www.getliner.com" //required
+
+        "userId":  "jeanDeluge", //required
+        "pageUrl" : "www.getliner.com" //required
+    
     }
 
 5. POST,/readPagewithHighlights 유저가 하이라이트한 정보와 페이지 가져오기
 
     Body,json
     {
+    
         "userId": "jeanDeluge" //required
+    
     }
 
 6. DELETE /deleteHighlight 하이라이트 삭제
     
     Body.json
     {
+        
         "userId":"jeanDeluge" //required
         "highlightId": "12"//required
+    
     }
 7. PUT /updateUserTheme    유저의 하이라이트 테마 변경
 
     Body, json
     {
+      
         "userId":"jeanDeluge" //required
         "themeId" : 2 //required
+    
     }
 # 데이터 구조
 
