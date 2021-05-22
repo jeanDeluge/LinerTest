@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 const {
   Model
 } = require('sequelize');
@@ -11,6 +11,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+
+      Highlights.Page= Highlights.belongsTo(models.Page,{foreignKey:'pageId', as:'page', targetKey: 'id', constraints:false});
+      Highlights.User= Highlights.belongsTo(models.User,{foreignKey:'userId', as:'user', targetKey:'id', constraints:false})
+
     }
   };
   Highlights.init({
@@ -18,7 +22,8 @@ module.exports = (sequelize, DataTypes) => {
     colorHex: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'Highlights',
+    modelName: 'Highlights'
+
   });
   return Highlights;
 };

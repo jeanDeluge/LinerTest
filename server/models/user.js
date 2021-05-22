@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -11,14 +12,19 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+     User.Page= User.hasMany(models.Page, {foreignKey:'userId', sourceKey:'id', as:'pages'});
+     User.Highlights = User.hasMany(models.Highlights, {foreignKey:'userId', sourceKey:'id', as:'highlights'});
+     User.Theme = User.hasMany(models.Theme, { foreignKey: "userId", sourceKey:"id", as:'themes'});
     }
   };
   User.init({
+    username : DataTypes.STRING,
     theme_Id: DataTypes.INTEGER,
-    page_Id: DataTypes.INTEGER
+    currentTheme: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'User',
+    modelName: 'User'
+
   });
   return User;
 };

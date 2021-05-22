@@ -8,10 +8,12 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      theme_Id: {
-        type: Sequelize.INTEGER
+      username:{
+        type: Sequelize.STRING,
+        unique:true
       },
-      page_Id: {
+      currentTheme:{
+
         type: Sequelize.INTEGER
       },
       createdAt: {
