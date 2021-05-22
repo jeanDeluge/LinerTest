@@ -21,17 +21,29 @@ body('themeId').not().isEmpty()
         let reqUserId = req.body.userId;
         let reqThemeId = req.body.themeId;
 
+        let findTheme = await Theme.findOne({where:{id:reqThemeId}});
+        console.log(findTheme);
         
-        let updateUserTheme = await User.update({currentTheme: reqThemeId},{where:{username: reqUserId}});
-        console.log(updateUserTheme)
+        if(!findTheme){
+            throw new Error(`you dont have ${reqThemeId} theme`)
+        }
+        let updateUserTheme = await User.update({currentTheme: reqThemeId},{where:{username: reqUserId}})
+            .then(result =>{
+                if(result[0]===1){
+                  res.status(200).send(`${res.statusCode} OK`)
+                }  
+                res.status(400).send(`${res.statusCode} current theme aren't be updated`) 
+            });
 
-        res.status(200).send(`${res.statusCode} OK`)
+       
 
     }catch(e){
         if(e.message ==='some params are missing'){
             res.status(400).json(e.message);
         }else if(e.message === `User doesn't exist`){
             res.status(400).json(e.message);
+        }else{
+            res.status(400).json(e.message)
         }
     }
 })

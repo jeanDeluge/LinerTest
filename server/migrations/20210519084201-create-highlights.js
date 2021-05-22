@@ -14,19 +14,6 @@ module.exports = {
       colorHex: {
         type: Sequelize.STRING
       },
-      pageId:{
-        type: Sequelize.INTEGER,
-        references:{
-          model: 'pages',
-          key : 'id'
-        }
-      },userId:{
-        type:Sequelize.INTEGER,
-        references:{
-          model: 'users',
-          key: 'id'
-        }
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
