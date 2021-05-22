@@ -13,6 +13,7 @@ module.exports = {
         unique:true
       },
       currentTheme:{
+
         type: Sequelize.INTEGER
       },
       createdAt: {
