@@ -15,9 +15,6 @@ module.exports = {
       currentTheme:{
         type: Sequelize.INTEGER
       },
-      theme_Id: {
-        type: Sequelize.INTEGER
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

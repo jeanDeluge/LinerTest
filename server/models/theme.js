@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-     // Theme.belongsToMany(models.User, {foreignKey:"theme_Id",sourceKey:"id",through: "UserThemes"})
+     Theme.belongsTo(models.User, {foreignKey:"theme_Id",sourceKey:"id"})
     }
   };
   Theme.init({
