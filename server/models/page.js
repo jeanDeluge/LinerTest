@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Page.Highlights = Page.hasMany(models.Highlights,{foreignKey:'pageId', sourceKey: 'id', as:'highlights'})
       Page.User=Page.belongsTo(models.User , {foreignKey:'userId',targetKey:'id', as: 'user', constraints:false})
+
     }
   };
   Page.init({
