@@ -12,7 +12,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-     User.Page= User.hasMany(models.Page, {foreignKey:'userId', sourceKey:'id', as:'pages'});//sourcekey : Page의 Primarykey
+     User.Page= User.hasMany(models.Page, {foreignKey:'userId', sourceKey:'id', as:'pages'});
+     User.Highlights = User.hasMany(models.Highlights, {foreignKey:'userId', sourceKey:'id', as:'highlights'});
      // User.belongsToMany(models.Theme, { foreignKey: "id", sourceKey:"id", through: "UserThemes"});
     }
   };

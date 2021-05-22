@@ -13,12 +13,6 @@ module.exports = {
       },
       page_Url: {
         type: Sequelize.STRING
-      },userId:{
-        type: Sequelize.INTEGER,
-        references:{
-          model: 'users',
-          key: 'id'
-        }
       },
       createdAt: {
         allowNull: false,
@@ -28,14 +22,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-    }).then(function(){
-      queryInterface.createTable('P', {
-        users_id:{
-          type: Sequelize.INTEGER,
-          references:{model: 'users', key: 'id'}
-        }
-      })
-    });
+    })
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('Pages');

@@ -1,6 +1,8 @@
 const {User, Highlights, Page, Theme, UserTheme} = require('../models')
 const express = require('express');
 const { restart } = require('nodemon');
+const user = require('../models/user');
+const highlights = require('../models/highlights');
 const router = express.Router();
 
 router.get('/',async (req, res)=>{
@@ -19,25 +21,10 @@ router.get('/',async (req, res)=>{
         
     
         let createUser = await User.create({
-            username : '12312',
+            username : '12322',
             theme_Id : 1,
-            currentTheme: 1,
-            pages: {
-                page_Url: "www.getliner.com",
-                highlights: {
-                    colorHex : "#fffff8",
-                    text: "라이너 사전과제입니다. init"
-                }
-            },
-            
-        },{include:{
-            model : Page,
-            as : 'pages',
-            include:{
-                model: Highlights,
-                as : 'highlights'
-            }
-        }}).catch(e => console.log(e))
+            currentTheme: 1
+        }).catch(e => console.log(e))
 
         console.log(createUser ,'user')
         res.status(200).send("data init => 유저 12312 생성")

@@ -26,25 +26,31 @@ body('text').not().isEmpty()
         const reqPageUrl = req.body.pageUrl;
         const reqColorHex = req.body.colorHex;
         const reqText = req.body.text;
-
+        
+        
+        let findUser = await User.findOne({where: {username:reqUserId}});
+        if(!findUser){
+                throw new Error('enter username')
+            }
         
         //let create = await Page.create({page_Url:reqPageUrl, highlights:{ colorHex:reqColorHex, text:reqText } },{include: [{association:Page.User, as:'user', where:{username: reqUserId}},{association: Page.Highlights, as:'highlights' }]}).catch(e=>{console.log(e)})
 
         let findPagebyUser = await Page.findOne({where: {page_Url: reqPageUrl}},{include: {model: User, as:'user', where:{username:reqUserId}}})
-        let findUser = await User.findOne({where: {username:reqUserId}});
-        console.log(findPagebyUser)
+        
+        
+
         let create={};
 
         if(!findPagebyUser){
-            console.log("see?")
-
-            create['pageAndHL'] = await Page.create({page_Url:reqPageUrl, userId:findUser.id, highlights:{ colorHex:reqColorHex, text:reqText } },{include: [{association:Page.User, as:'user', where:{username: reqUserId}},{association: Page.Highlights, as:'highlights' }]}).catch(e=>{console.log(e)})
+            console.log('if문들어옴')
+            create['pageAndHL'] = await Page.create({page_Url:reqPageUrl, userId:findUser.dataValues.id, highlights:{ colorHex:reqColorHex, text:reqText, userId:findUser.dataValues.id } },{include: [{association:Page.User, as:'user', where:{username: reqUserId}},{association: Page.Highlights, as:'highlights' }]}).catch(e=>{console.log(e)})
         
         }else{
-
-            create['highlight'] = await Highlights.create({colorHex:reqColorHex, text:reqText, pageId:findPagebyUser.id}, {include: {model:Page, as:"page", where:{page_Url:reqPageUrl}, include:{association:Page.User , as:"user", where:{username: reqUserId} }}} )
+            console.log('엘스문 들어옴')
+            create['highlight'] = await Highlights.create({colorHex:reqColorHex, text:reqText, pageId:findPagebyUser.dataValues.id, userId:findUser.dataValues.id}, {include: {association:Highlights.Page, as:"page", where:{page_Url:reqPageUrl}, include:{association:Highlights.User , as:"user", where:{username: reqUserId} }}} ).catch(e=>console.log(e))
         }
 
+        console.log(create)
         let pageId;
         let createdHLobj;
         if(!create.pageAndHL){
@@ -67,6 +73,8 @@ body('text').not().isEmpty()
             res.status(400).json(e.message);
         }else if(e.message === `User doesn't exist`){
             res.status(400).json(e.message);
+        }else{
+            res.status(400).json(e.message)
         }
     }
 })
